@@ -9,16 +9,38 @@ function validateFormInputs(form) {
     return allFilled && locationFilled;
 }
 
+function showFieldError(input, message) {
+    const errorEl = document.createElement('span');
+    errorEl.className = 'field-error';
+    errorEl.textContent = message;
+    input.insertAdjacentElement('afterend', errorEl);
+}
+
+function clearFieldErrors(form) {
+    const existingErrors = form.querySelectorAll('.field-error');
+    existingErrors.forEach(error => error.remove());
+}
+
+function getFirstInvalidField(form) {
+    const inputs = [...form.querySelectorAll('input, textarea')];
+    return inputs.find(input => input.value.trim() === '') || null;
+}
+
 function attachFormSubmitHandler(formSelector) {
     const form = document.querySelector(formSelector);
     if (!form) return;
 
     form.addEventListener('submit', (event) => {
-        if (!validateFormInputs(form)) {
+        clearFieldErrors(form);
+
+        const invalidField = getFirstInvalidField(form);
+        if (invalidField) {
             event.preventDefault();
-            alert('Please fill in all required form fields.');
+            showFieldError(invalidField, 'Please fill in this field.');
+            invalidField.focus();
             return;
         }
+
         alert('Your request has been submitted successfully!');
     });
 }
@@ -28,23 +50,22 @@ document.addEventListener('DOMContentLoaded', () => {
     attachFormSubmitHandler('form[action="submit_request.php"]');
 });
 
-// Function to start the VR simulation
-document.addEventListener("DOMContentLoaded", function () {
-    window.startVR = function () {
-        const tutorial = document.getElementById("vr-tutorial");
-        const simulation = document.getElementById("vr-scene");
+const VR_TUTORIAL_DURATION_MS = 4000;
 
-        // Show tutorial first
-        tutorial.style.display = "block";
+function startVrSimulation() {
+    const vrTutorialElement = document.getElementById('vr-tutorial');
+    const vrSceneElement = document.getElementById('vr-scene');
 
-        // After 4 seconds, hide tutorial and show interactive VR
-        setTimeout(() => {
-            tutorial.style.display = "none";
-            console.log("Tutorial:", tutorial);
-console.log("Simulation:", simulation);
-            simulation.style.display = "block";
-        }, 4000);
-    };
+    vrTutorialElement.style.display = 'block';
+
+    setTimeout(() => {
+        vrTutorialElement.style.display = 'none';
+        vrSceneElement.style.display = 'block';
+    }, VR_TUTORIAL_DURATION_MS);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    window.startVrSimulation = startVrSimulation;
 });
 
 
@@ -57,28 +78,26 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    // Create a user object
-    const user = {
-        username: username,
-        email: email,
-        password: password
-    };
+    // Create a new user record
+    const newUserRecord = { username, email, password };
 
-    // Retrieve existing users from local storage
-    let users = JSON.parse(localStorage.getItem('users')) || [];
+    // Retrieve registered users from local storage
+    let registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
 
     // Check if the username already exists
-    const userExists = users.some(existingUser  => existingUser .username === username);
-    if (userExists) {
+    const isUsernameTaken = registeredUsers.some(
+        existingUser => existingUser.username === username
+    );
+    if (isUsernameTaken) {
         alert('Username already exists. Please choose a different username.');
         return;
     }
 
     // Add the new user to the array
-    users.push(user);
+    registeredUsers.push(newUserRecord);
 
     // Store the updated users array in local storage
-    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('users', JSON.stringify(registeredUsers));
 
     // Clear the form
     document.getElementById('signupForm').reset();
