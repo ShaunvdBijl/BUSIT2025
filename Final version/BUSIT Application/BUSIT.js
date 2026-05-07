@@ -40,8 +40,6 @@ function attachFormSubmitHandler(formSelector) {
             invalidField.focus();
             return;
         }
-
-        alert('Your request has been submitted successfully!');
     });
 }
 

@@ -21,9 +21,9 @@ if (!$conn) {
 
 // Validate and sanitize POST data
 $location = isset($_POST['location']) ? trim($_POST['location']) : null;
-$feedback = isset($_POST['feedback']) ? trim($_POST['feedback']) : null;
+$feedback = isset($_POST['feedback']) ? trim($_POST['feedback']) : '';
 
-if (empty($location) || empty($feedback)) {
+if (empty($location)) {
     sqlsrv_close($conn);
     http_response_code(400);
     die('Missing required fields.');
