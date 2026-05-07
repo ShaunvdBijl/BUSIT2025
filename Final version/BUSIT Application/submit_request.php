@@ -1,10 +1,12 @@
 <?php
-// Database connection settings
-$serverName = "localhost\\SQLEXPRESS,61187"; // Correct for named instance
+// Load database configuration from environment variables
+require_once 'config.php';
+
+$serverName = DB_SERVER;
 $connectionOptions = [
-    "Database" => "seed_tracking_new",
-    "Uid" => "farming_user",
-    "PWD" => "adminUs3rL0gin911",
+    "Database" => DB_NAME,
+    "Uid" => DB_USER,
+    "PWD" => DB_PASSWORD,
     "TrustServerCertificate" => true
 ];
 
@@ -12,28 +14,39 @@ $connectionOptions = [
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 if (!$conn) {
-    die(print_r(sqlsrv_errors(), true));
+    error_log('Database connection failed: ' . print_r(sqlsrv_errors(), true));
+    http_response_code(500);
+    die('A server error occurred. Please try again later.');
 }
 
-// Get form data from POST
-$location = $_POST['location'];
-$feedback = $_POST['feedback'];
+// Validate and sanitize POST data
+$location = isset($_POST['location']) ? trim($_POST['location']) : null;
+$feedback = isset($_POST['feedback']) ? trim($_POST['feedback']) : null;
+
+if (empty($location) || empty($feedback)) {
+    sqlsrv_close($conn);
+    http_response_code(400);
+    die('Missing required fields.');
+}
 
 // Insert into crop_advice_request table
-$sql = "INSERT INTO crop_advice_requests     (location, feedback) VALUES (?, ?)";
+$sql = "INSERT INTO crop_advice_requests (location, feedback) VALUES (?, ?)";
 $params = array($location, $feedback);
 
 $stmt = sqlsrv_query($conn, $sql, $params);
 
 if ($stmt === false) {
-    die(print_r(sqlsrv_errors(), true));
-} else {
-    header("Location: BUSITFoodBank.html?updated=true");
-    exit();
+    error_log('Database query failed: ' . print_r(sqlsrv_errors(), true));
+    sqlsrv_close($conn);
+    http_response_code(500);
+    die('A server error occurred. Please try again later.');
 }
 
-// Clean up
+// Clean up before redirecting
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
+
+header("Location: BUSITFoodBank.html?updated=true");
+exit();
 
 ?>

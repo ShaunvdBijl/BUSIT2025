@@ -15,6 +15,7 @@ desktop.ini
 config/*.env
 config/*.local
 secrets/
+config.php
 
 # Ignore IDE/editor folders
 .vscode/
