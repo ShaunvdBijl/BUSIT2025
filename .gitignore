@@ -1,0 +1,42 @@
+# Ignore OS and editor temporary files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.log
+*.bak
+*.swp
+*.swo
+
+# Ignore local environment and secret files
+.env
+.env.*
+*.local
+config/*.env
+config/*.local
+secrets/
+config.php
+
+# Ignore IDE/editor folders
+.vscode/
+.idea/
+
+# Ignore dependency folders
+node_modules/
+
+# Ignore PHPStorm/WebStorm project files
+*.iml
+
+# Ignore common backup or generated files
+*.class
+*.cache
+
+# Ignore runtime database or cache files
+*.sqlite
+*.sqlite3
+
+# Ignore local sendmail/mail logs
+*.err
+
+# NOTE: do not commit plain-text credentials or SQL scripts containing login/password values.
+# Move credentials out of source code (for example, into a .env file) and keep that file ignored.
