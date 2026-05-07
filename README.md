@@ -1,104 +1,178 @@
-# BUSIT Application
+# BUSIT - Community Farming Platform
 
-This repository contains the BUSIT community farming platform and a Docker-based environment for running the PHP/Apache frontend with SQL Server.
+## Project Description
 
-## Project structure
+BUSIT is a comprehensive web-based platform designed to support community farming initiatives. It provides farmers and agricultural enthusiasts with tools for crop advice requests, virtual reality farming simulations, food bank assistance, and educational farming guides. The platform integrates modern web technologies with database management to facilitate seed tracking, planting advice, and technology integration in agriculture.
 
-- `Dockerfile` — builds a PHP 8.3 Apache image with Microsoft SQL Server drivers installed
-- `docker-compose.yml` — starts the `app` service and a SQL Server container
-- `.env.example` — environment variables template for Docker and application configuration
-- `.dockerignore` — files excluded from the Docker build context
-- `Final version/BUSIT Application/` — actual web application source files served by Apache
-- `Final version/BUSIT Application/config.php` — loads database configuration from environment variables
+Built with HTML, CSS, JavaScript for the frontend, PHP for backend processing, and SQL Server for data management, BUSIT aims to bridge the gap between traditional farming practices and digital innovation.
 
-### Key source locations
+## Features Overview
 
-```text
-Final version/
-  BUSIT Application/
-    index.html
-    BUSITHome Page.html
-    BUSITRequest.html
-    BUSITFoodBank.html
-    submit_request.php
-    config.php
-    BUSIT.js
-    BUSIT.css
-    signUp.html
-    login.php
-```
+- **User Authentication**: Sign up and login functionality for personalized access
+- **Crop Advice Requests**: Submit location-based requests for agricultural advice
+- **VR Farming Simulation**: Immersive virtual reality experience using A-Frame for learning farming techniques
+- **Food Bank Assistance**: Resources and support for food bank operations
+- **Farming Guides**: Educational content and crop advice resources
+- **Seed Tracking System**: Database-driven tracking of seeds, customers, and planting details
+- **Technology Integration**: Support for modern farming technologies like drones, AI sensors, and 3D printing
 
-> Important: run Docker commands from the repository root: `c:\Users\shaun\OneDrive\Belgium campus\BUSIT\Final version`
+## Installation Instructions
 
-## Setup
+### Prerequisites
 
-1. Copy `.env.example` to `.env`:
+- **Web Server**: Apache, Nginx, or IIS
+- **PHP**: Version 7.4 or higher with SQL Server extensions enabled
+- **SQL Server**: Microsoft SQL Server 2019 or later (Express edition is sufficient)
+- **Web Browser**: Modern browser with JavaScript enabled (Chrome, Firefox, Edge recommended)
 
-   ```powershell
-   copy .env.example .env
+### Step-by-Step Installation
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/busit.git
+   cd busit
    ```
 
-2. Update `.env` with your own values:
+2. **Set Up the Database**
+   - Install and configure SQL Server
+   - Run the database setup script:
+     ```sql
+     -- Execute BusIT_-_SQLQuery2[1].sql to create the database schema
+     ```
+   - Create the database user and permissions as outlined in `SQL Security Query.sql`
 
-   - `DB_SERVER=sqlserver,1433`
-   - `DB_NAME=seed_tracking_new`
-   - `DB_USER=farming_user`
-   - `DB_PASSWORD=your_secure_password_here`
-   - `SA_PASSWORD=YourStrong!Passw0rd`
+3. **Configure Database Connection**
+   - Update `submit_request.php` with your SQL Server connection details
+   - For security, consider moving credentials to environment variables
 
-3. Start the application:
+4. **Deploy to Web Server**
+   - Copy the `BUSIT Application/` folder to your web server's document root
+   - Ensure PHP has write access to necessary directories
+   - Configure your web server to serve PHP files
 
-   ```powershell
-   docker compose up --build
-   ```
+5. **Install Dependencies**
+   - No additional dependencies required for basic functionality
+   - A-Frame library is loaded via CDN for VR features
 
-4. Open the app in your browser:
+6. **Access the Application**
+   - Open your browser and navigate to `http://localhost/BUSIT Application/`
+   - The application will redirect to the home page
 
-   ```text
-   http://localhost:8080
-   ```
+## Basic Usage Examples
 
-## Running in the background
+### Accessing the Platform
+1. Open the home page (`BUSITHome Page.html`)
+2. Sign up for a new account or log in with existing credentials
 
-To run the stack detached:
+### Requesting Crop Advice
+1. Navigate to "Request Crop Service"
+2. Fill in your location and any additional feedback
+3. Submit the form - data will be stored in the database
 
-```powershell
-docker compose up --build -d
+### Using VR Farming Simulation
+1. Go to "VR Farming Simulation"
+2. Click "Start VR Simulation" to begin the immersive experience
+3. Use VR headset or mouse/keyboard for interaction
+
+### Viewing Farming Guides
+1. Access "Farming Guides" from the navigation menu
+2. Browse available crop advice and farming techniques
+
+## Configuration Options
+
+### Database Configuration
+Edit `submit_request.php` to modify:
+- Server name and instance
+- Database name
+- Authentication credentials
+
+Example configuration:
+```php
+$serverName = "localhost\\SQLEXPRESS,1433";
+$connectionOptions = [
+    "Database" => "seed_tracking_new",
+    "Uid" => "your_username",
+    "PWD" => "your_secure_password",
+    "TrustServerCertificate" => true
+];
 ```
 
-Stop the stack with:
+### Environment Variables (Recommended)
+For better security, create a `.env` file (ignored by Git) and load credentials from there.
 
-```powershell
-docker compose down
-```
-
-## Notes
-
-- The `app` service is exposed on port `8080`
-- SQL Server is exposed on port `1433`
-- `DB_SERVER` must be set to `sqlserver,1433` because Docker Compose uses the service name `sqlserver`
-- `.env` is ignored by Git, so secrets do not get committed
-- The application currently includes a placeholder `login.php` endpoint and a client-side sign-up flow that uses browser storage
+### Web Server Configuration
+- Ensure PHP extensions: `sqlsrv`, `pdo_sqlsrv` are enabled
+- Configure appropriate file permissions
+- Set up SSL/TLS for production deployments
 
 ## Troubleshooting
 
-- If the site does not load at `http://localhost:8080`, verify the containers are running:
+### Common Issues
 
-  ```powershell
-  docker compose ps
-  ```
+**Database Connection Failed**
+- Verify SQL Server is running and accessible
+- Check server name, port, and credentials in `submit_request.php`
+- Ensure SQL Server Browser service is running for named instances
+- Confirm firewall settings allow connections
 
-- Check the logs for errors:
+**PHP Errors**
+- Check PHP error logs for detailed error messages
+- Ensure required PHP extensions are installed and enabled
+- Verify file permissions allow PHP to execute
 
-  ```powershell
-  docker compose logs --no-color --tail=80
-  ```
+**VR Simulation Not Loading**
+- Ensure internet connection for A-Frame CDN loading
+- Check browser compatibility (modern browsers required)
+- Disable browser extensions that may block WebGL
 
-- If SQL Server is not ready yet, wait a few minutes while the container initializes
+**Form Submissions Not Working**
+- Verify database tables exist and are properly structured
+- Check PHP configuration for POST data handling
+- Ensure `submit_request.php` has correct file permissions
 
-## File changes after Docker setup
+**Page Not Found Errors**
+- Confirm all files are in the correct directory structure
+- Check web server configuration for URL rewriting
+- Verify base URLs in navigation links
 
-- `Dockerfile` now copies the real application source from `Final version/BUSIT Application/` into `/var/www/html`
-- `docker-compose.yml` uses an `.env` file for both the app and SQL Server
-- `.dockerignore` prevents build context files like `.env`, `.git`, and logs from being sent to Docker
-- `.gitignore` ignores `config.php` and environment secret files
+### Debugging Tips
+- Enable PHP error reporting in development
+- Use browser developer tools to inspect network requests
+- Check SQL Server logs for database-related issues
+- Test database connectivity separately using SQL Server Management Studio
+
+## Contributing Guidelines
+
+We welcome contributions to improve BUSIT! Please follow these guidelines:
+
+### How to Contribute
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Make your changes and test thoroughly
+4. Commit your changes: `git commit -m 'Add some feature'`
+5. Push to the branch: `git push origin feature/your-feature-name`
+6. Submit a pull request
+
+### Code Standards
+- Follow consistent indentation (4 spaces for PHP, 2 spaces for HTML/CSS/JS)
+- Use meaningful variable and function names
+- Add comments for complex logic
+- Test all changes before submitting
+
+### Reporting Issues
+- Use GitHub Issues to report bugs or request features
+- Provide detailed descriptions including steps to reproduce
+- Include browser/console error messages when applicable
+- Specify your environment (OS, browser, PHP version, etc.)
+
+## License Information
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2023 BUSIT Community Farming Platform
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
