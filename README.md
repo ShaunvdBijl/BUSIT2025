@@ -24,6 +24,8 @@ Built with HTML, CSS, JavaScript for the frontend, PHP for backend processing, a
 - **PHP**: Version 7.4 or higher with SQL Server extensions enabled
 - **SQL Server**: Microsoft SQL Server 2019 or later (Express edition is sufficient)
 - **Web Browser**: Modern browser with JavaScript enabled (Chrome, Firefox, Edge recommended)
+- Docker Desktop installed
+- Docker Compose available
 
 ### Step-by-Step Installation
 
@@ -49,12 +51,15 @@ Built with HTML, CSS, JavaScript for the frontend, PHP for backend processing, a
    - Copy the `BUSIT Application/` folder to your web server's document root
    - Ensure PHP has write access to necessary directories
    - Configure your web server to serve PHP files
+     
+5.**Docker Deployment**
+   -BUSIT also supports a Docker-based deployment with PHP/Apache and SQL Server.
 
-5. **Install Dependencies**
+6. **Install Dependencies**
    - No additional dependencies required for basic functionality
    - A-Frame library is loaded via CDN for VR features
 
-6. **Access the Application**
+7. **Access the Application**
    - Open your browser and navigate to `http://localhost/BUSIT Application/`
    - The application will redirect to the home page
 
@@ -96,7 +101,10 @@ $connectionOptions = [
     "TrustServerCertificate" => true
 ];
 ```
+### 1. Copy `.env.example` to `.env`:
 
+   powershell
+   copy .env.example .env
 ### Environment Variables (Recommended)
 For better security, create a `.env` file (ignored by Git) and load credentials from there.
 
