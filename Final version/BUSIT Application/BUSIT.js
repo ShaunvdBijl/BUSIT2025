@@ -1,53 +1,32 @@
-// Function to validate form inputs
-function validateForm(form) {
-    let isValid = true;
+// Unified form validation helper
+function validateFormInputs(form) {
     const inputs = form.querySelectorAll('input, textarea');
+    const locationField = form.querySelector('#location');
 
-    inputs.forEach(input => {
-        if (input.value.trim() === '') {
-            isValid = false;
-            alert(`Please fill out the ${input.previousElementSibling.innerText}`);
+    const allFilled = [...inputs].every(input => input.value.trim() !== '');
+    const locationFilled = locationField ? locationField.value.trim() !== '' : true;
+
+    return allFilled && locationFilled;
+}
+
+function attachFormSubmitHandler(formSelector) {
+    const form = document.querySelector(formSelector);
+    if (!form) return;
+
+    form.addEventListener('submit', (event) => {
+        if (!validateFormInputs(form)) {
+            event.preventDefault();
+            alert('Please fill in all required form fields.');
+            return;
         }
+        alert('Your request has been submitted successfully!');
     });
-
-    return isValid;
 }
 
-// Event listener for the Request Crop Advice form
 document.addEventListener('DOMContentLoaded', () => {
-    const requestForm = document.querySelector('form[action="request_crops.php"]');
-    
-    if (requestForm) {
-        requestForm.addEventListener('submit', (event) => {
-            if (!validateForm(requestForm)) {
-                event.preventDefault(); // Prevent form submission if validation fails
-            } else {
-                alert('Your request has been submitted successfully!');
-            }
-        });
-    }
+    attachFormSubmitHandler('form[action="request_crops.php"]');
+    attachFormSubmitHandler('form[action="submit_request.php"]');
 });
-
-   // Event listener for the Request Crop Advice form
-document.addEventListener('DOMContentLoaded', () => {
-    const requestForm = document.querySelector('form[action="submit_request.php"]');
-    
-    if (requestForm) {
-        requestForm.addEventListener('submit', (event) => {
-            if (!validateForm(requestForm)) {
-                event.preventDefault(); // Prevent form submission if validation fails
-            } else {
-                alert('Your request has been submitted successfully!');
-            }
-        });
-    }
-});
-
-// Dummy validation function (you can replace this with your real validation)
-function validateForm(form) {
-    const location = form.querySelector('#location');
-    return location && location.value.trim() !== '';
-}
 
 // Function to start the VR simulation
 document.addEventListener("DOMContentLoaded", function () {
