@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Crop Advice</title>
+    <link rel="stylesheet" href="BUSIT.css">
+    <style>
+        /* Tab styles */
+        .tab {
+            display: none;
+        }
+        .tab-content {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .tab-links {
+            display: flex;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .tab-links div {
+            padding: 10px 20px;
+            background: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+        }
+        .tab-links div.active {
+            background: white;
+            border-bottom: 1px solid white;
+        }
+        .tab.active {
+    display: block;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Community Farming Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="BUSITHome Page.html">Home</a></li>
+                <li><a href="BUSITRequest.html">Request Crop Service</a></li>
+                <li><a href="BUSITFoodBank.html">Food Bank Assistance</a></li>
+                <li><a href="vr_Farming.html">VR Farming Simulation</a></li>
+                <li><a href="cropAdvice.html">Farming Guides</a></li>
+                <li><a href="signUp.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Request Crop Advice</h2>
+        <p>Welcome to the Request Crop Advice section! Here, you can learn about different agricultural seeds, their transport and planting processes, and how modern technology is integrated into farming practices.</p>
+
+        <!-- Tabs for main sections -->
+        <div class="tab-links">
+            <div class="tab-link active" data-tab="technology">Implementing Modern Technology</div>
+            <div class="tab-link" data-tab="transport">Transport and Planting Process</div>
+            <div class="tab-link" data-tab="seed-types">Five Basic Agricultural Seed Types</div>
+        </div>
+
+        <!-- Tab content -->
+        <div id="technology" class="tab tab-content active">
+            <h4>Part 3: Implementing Modern Technology</h4>
+            <h5>Drones:</h5>
+            <ul>
+                <li>Used for aerial seeding across large fields.</li>
+                <li>Monitor crop health and soil conditions using sensors.</li>
+                <li>Apply fertilizers and pesticides precisely.</li>
+            </ul>
+            <h5>Virtual Reality (VR):</h5>
+            <ul>
+                <li>Simulates field training and planting practices.</li>
+                <li>Helps farmers visualize crop growth and manage risks.</li>
+            </ul>
+            <h5>3D Printing:</h5>
+            <ul>
+                <li>Produces custom seed planting tools and equipment parts.</li>
+                <li>Used in educational models to teach seed structure.</li>
+                <li>Enables quick prototyping of new planting devices.</li>
+            </ul>
+        </div>
+
+        <div id="transport" class="tab tab-content">
+            <h4>Transport and Planting Process</h4>
+            <h5>Transport:</h5>
+            <ul>
+                <li>Seeds are packaged in airtight, moisture-proof bags.</li>
+                <li>Labels include seed type, batch number, and production date.</li>
+                <li>Stored in cool, dry warehouses</li>
+            </ul>
+        </div>
+        <div id="seed-types" class="tab tab-content">
+            <h4>Part 1: Five Basic Agricultural Seed Types</h4>
+        
+            <h5>Cereal Seeds</h5>
+            <ul>
+                <li><strong>Examples:</strong> Maize, wheat, rice</li>
+                <li><strong>Purpose:</strong> Staple food crops for grain production.</li>
+            </ul>
+        
+            <h5>Legume Seeds</h5>
+            <ul>
+                <li><strong>Examples:</strong> Beans, peas, lentils</li>
+                <li><strong>Purpose:</strong> Protein-rich and improve soil through nitrogen fixation.</li>
+            </ul>
+        
+            <h5>Vegetable Seeds</h5>
+            <ul>
+                <li><strong>Examples:</strong> Tomato, spinach, carrots</li>
+                <li><strong>Purpose:</strong> Grown for fresh produce and nutritional variety.</li>
+            </ul>
+        
+            <h5>Oilseed Crops</h5>
+            <ul>
+                <li><strong>Examples:</strong> Sunflower, canola, soybeans</li>
+                <li><strong>Purpose:</strong> Used for cooking oil and livestock feed.</li>
+            </ul>
+        
+            <h5>Forage Seeds</h5>
+            <ul>
+                <li><strong>Examples:</strong> Alfalfa, clover, ryegrass</li>
+                <li><strong>Purpose:</strong> Planted for animal feed and pasture.</li>
+            </ul>
+        </div>
+        <script src="cropTabNav.js"></script>
+    </main>
+</body>
+</html>
