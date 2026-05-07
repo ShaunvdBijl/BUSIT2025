@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Crop Advice</title>
+    <link rel="stylesheet" href="BUSIT.css">
+</head>
+<body>
+    <header>
+        <h1>Community Farming Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="BUSITHome Page.html">Home</a></li>
+                <li><a href="BUSITRequest.html">Request Crop Service</a></li>
+                <li><a href="BUSITFoodBank.html">Food Bank Assistance</a></li>
+                <li><a href="vr_Farming.html">VR Farming Simulation</a></li>
+                <li><a href="cropAdvice.html">Farming Guides</a></li>
+                <li><a href="signUp.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Request Crop Advice</h2>
+        <form action="submit_request.php" method="post">
+            <label for="location">Your Location:</label>
+            <input type="text" id="location" name="location" required>
+            <label for="feedback">Additional Feedback:</label>
+            <textarea id="feedback" name="feedback"></textarea>
+            <button type="submit">Submit Request</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Community Farming Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="BUSIT.js"></script>
+
+    <script>
+        // Check for success message in the URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('updated') === 'true') {
+                alert("Database updated. You were automatically rerouted to the food bank page.");
+            }
+        });
+    </script>
+</body>
+</html>

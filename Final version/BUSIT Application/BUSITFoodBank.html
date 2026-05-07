@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Bank Assistance</title>
+    <link rel="stylesheet" href="BUSIT.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <h1>Community Farming Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="BUSITHome Page.html">Home</a></li>
+                <li><a href="BUSITRequest.html">Request Crop Service</a></li>
+                <li><a href="BUSITFoodBank.html">Food Bank Assistance</a></li>
+                <li><a href="vr_Farming.html">VR Farming Simulation</a></li>
+                <li><a href="cropAdvice.html">Farming Guides</a></li>
+                <li><a href="signUp.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Food Bank </h2>
+        <h2>Food Bank Assistance</h2>
+            <p>Find nearby food banks on the map below:</p>
+                <div id="map" style="height: 500px; width: 100%; margin-top: 20px;"></div>
+
+                <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+                <script>
+                    // Sample food bank data (latitude, longitude, name)
+                    const foodBanks = [
+                        { name: "City Center Food Bank", lat: -26.2041, lng: 28.0473 },
+                        { name: "Hope Kitchen", lat: -26.2100, lng: 28.0500 },
+                        { name: "Community Pantry", lat: -26.2000, lng: 28.0600 }
+                    ];
+                
+                    // Initialize the map
+                    const map = L.map('map').setView([-26.2041, 28.0473], 13); // Example: Johannesburg
+                
+                    // Load OpenStreetMap tiles
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+                
+                    // Add markers for each food bank
+                    foodBanks.forEach(bank => {
+                        L.marker([bank.lat, bank.lng])
+                            .addTo(map)
+                            .bindPopup(`<strong>${bank.name}</strong>`);
+                    });
+                </script>
+
+    </main>
+
+</body>
+</html>
