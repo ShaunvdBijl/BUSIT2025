@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - '8080:80'
+    env_file:
+      - .env
+    depends_on:
+      - sqlserver
+    restart: unless-stopped
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    env_file:
+      - .env
+    ports:
+      - '1433:1433'
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    restart: unless-stopped
+
+volumes:
+  sqlserverdata:
